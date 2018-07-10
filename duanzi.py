@@ -1,3 +1,6 @@
+'''
+使用lxml爬取糗事百科
+'''
 import os
 import urllib.request
 from urllib import parse
@@ -20,7 +23,10 @@ for i in range(int(beginpage),int(endpage)+1):
     request = urllib.request.Request(myurl)
     request.add_header('User-Agent',header)
     html = urllib.request.urlopen(request)
+    
+    #用lxml解析
     one = etree.HTML(html.read())
+    #筛选博主链接
     list = one.xpath('//a[@class="contentHerf"]/@href')
     for j in list:
         newurl = 'https://www.qiushibaike.com'+j
@@ -28,8 +34,14 @@ for i in range(int(beginpage),int(endpage)+1):
         request.add_header('User-Agent',header)
         req = urllib.request.urlopen(request)
         html = etree.HTML(req.read())
+        
+        #筛选博主论文
         li = html.xpath("//div[@class='content']")
+        
+        #筛选博主头像
         lp = html.xpath("//div[@class='author clearfix']//img/@src")
+        
+        #筛选博主昵称
         ln = html.xpath("//div[@class='author clearfix']//img/@alt")
         for m in lp:
             nurl = 'http:'+m
