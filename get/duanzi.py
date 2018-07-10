@@ -1,3 +1,6 @@
+'''
+使用lxml抓取糗事百科的博主发表的文章、姓名和头像
+'''
 import os
 import urllib.request
 from urllib import parse
