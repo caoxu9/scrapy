@@ -1,3 +1,6 @@
+'''
+使用lxml爬取百度贴吧
+'''
 import urllib.request
 from urllib import parse
 from lxml import etree
@@ -23,12 +26,16 @@ class Spider:
         # urllib.request.install_opener(self.opener)
         # # print('++++++++++++++++++')
         self.username = 1
+        
+    #生成要爬取的贴吧链接
     def tiebaSpider(self):
         for i in range(int(self.beginpage),int(self.endpage)+1):
             pn = (i - 1)*50
             word = {'kw':self.tiebaname,'ie':'utf-8','pn':pn}
             myurl = self.url + '?'+urllib.parse.urlencode(word)
             self.loadpage(myurl)
+     
+    #发送请求筛选并生成博主链接
     def loadpage(self,url):
         print(url)
         request = urllib.request.Request(url)
@@ -40,6 +47,8 @@ class Spider:
         for i in links:
             newurl = "http://tieba.baidu.com" + i
             self.writepage(newurl)
+            
+    #筛选图片
     def writepage(self,url):
         request = urllib.request.Request(url)
         request.add_headermei('User-Agent', self.header)
@@ -48,6 +57,8 @@ class Spider:
         links = html.xpath('//img[@class="BDE_Image"]/@src')
         for i in links:
             self.writeimage(i)
+    
+    #下载图片
     def writeimage(self,url):
         print(url)
         print("正在存储文件 %d ..." % self.username)
