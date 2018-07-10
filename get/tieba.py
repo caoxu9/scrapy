@@ -1,3 +1,6 @@
+'''
+爬取百度贴吧图片
+'''
 import urllib.request
 from urllib import parse
 from lxml import etree
