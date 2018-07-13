@@ -1,7 +1,7 @@
 '''
 使用lxml抓取糗事百科的博主发表的文章、姓名和头像
 '''
-import os
+import json
 import urllib.request
 from urllib import parse
 import random
@@ -25,6 +25,7 @@ for i in range(int(beginpage),int(endpage)+1):
     html = urllib.request.urlopen(request)
     one = etree.HTML(html.read())
     list = one.xpath('//a[@class="contentHerf"]/@href')
+    ls = []
     for j in list:
         newurl = 'https://www.qiushibaike.com'+j
         request = urllib.request.Request(newurl)
@@ -34,19 +35,8 @@ for i in range(int(beginpage),int(endpage)+1):
         li = html.xpath("//div[@class='content']")
         lp = html.xpath("//div[@class='author clearfix']//img/@src")
         ln = html.xpath("//div[@class='author clearfix']//img/@alt")
-        for m in lp:
-            nurl = 'http:'+m
-            request = urllib.request.Request(nurl)
-            request.add_header('User-Agent',header)
-            req = urllib.request.urlopen(request)
-            with open(str(filename)+'.png','wb') as f:
-                f.write(req.read())
-        for i in ln:
-            with open(str(filename)+'.txt','w',encoding='utf8') as f:
-                f.write(i)
-        with open(str(filename)+'.doc','w',encoding='utf8') as f:
-            f.write(li[0].text)
-        filename += 1
-        
-        
-        
+        for i in range(len(lp)):
+            ls.append({'name':ln[i],'img':lp[i],'comment':li[i].text})
+a = json.dumps(ls)
+with open('a.json','w')as f:
+    f.write(a)
