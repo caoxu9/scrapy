@@ -4,12 +4,13 @@
 import requests,urllib3,MySQLdb,datetime
 from urllib.parse import urlencode
 
-print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
 urllib3.disable_warnings()
 url = 'https://www.lagou.com/jobs/positionAjax.json?'
 key = input('输入要爬取的数据：')
 page = input('输入爬取的数据量（页数）:')
 city = input('输入城市：')
+print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 offset = {
     'city':city,
     'needAddtionalResult':'false',
