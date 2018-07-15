@@ -1,7 +1,7 @@
 '''
 爬取拉钩网站招聘数据
 '''
-import requests,urllib3,MySQLdb,datetime
+import requests,urllib3,MySQLdb,datetime，time
 from urllib.parse import urlencode
 
 
@@ -41,6 +41,7 @@ if int(page)>1:
             cur.execute('insert into lagou(positionname,workyear,education,salary,companyfullname,formatcreatetime) VALUES ("%s","%s","%s","%s","%s","%s")'%(i['positionName'],i['workYear'],i['education'],i['salary'],i['companyFullName'],i['formatCreateTime']))
             conn.commit()
     conn.close()
+    time.sleep(1)
 else:
     data = {
         'first': 'true',
@@ -58,4 +59,5 @@ else:
             i['positionName'], i['workYear'], i['education'], i['salary'], i['companyFullName'], i['formatCreateTime']))
         conn.commit()
     conn.close()
+    time.sleep(1)
 print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
